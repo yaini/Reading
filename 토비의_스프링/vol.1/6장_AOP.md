@@ -344,5 +344,67 @@ AOP의 기본 모듈
 더 이상 쪼갤 수 없는 최소 단위의 작업
 
 DefaultTransactionDefinition이 구현하고 있는 TransactionDefinition 인터페이스에서 트랜잭션의 동작방식에 영향을 줄 수 있는 네 가지 속성
+DefaultTransactionDefinition이 구현하고 있는 TransactionDefinition 인터페이스에서 트랜잭션의 동작방식에 영향을 줄 수 있는 네 가지 속성
 
+### 트랜잭션 전파
+
+트랜잭션의 경계에서 이미 진행 중인 트랜잭션이 있을 때 또는 없을 때 어떻게 동작할 것인가
+
+- PROPAGATION_REQUIRED
+
+    이미 시작된 트랜잭션이 있으면 참여
+
+- PROPAGATION_REQUIRES_NEW
+
+    항상 새로운 트랜잭션 시작
+
+- PROPAGATION_NOT_SUPPORTED
+
+    트랜잭션 없이 동작, 진행 중인 트랜잭션이 있어도 무시
+
+### 격리수준
+
+- 제한시간
+
+    트랜잭션을 수행하는 제한시간 설정
+
+    디폴트는 제한시간이 없음
+
+- 읽기전용
+
+    트랜잭션 내에서 데이터를 조작하는 시도를 막아줌
+
+## 6.6.2 트랜잭션 인터셉터와 트랜잭션 속성
+
+### TransactionInterceptor
+
+트랜잭션 정의를 메소드 이름 패턴을 이용해서 다르게 지정
+
+PlatformTransactionManager와 Properties 타입의 두 가지 프로퍼티를 가짐
+
+### 메소드 이름 패턴을 이용한 트랜잭션 속성 지정
+
+```python
+PROPAGATION_NAME, ISOLATION_NAME, readOnly, time_NNNN, -Exception1, +Exception2
+```
+
+### tx 네임스페이스를 이용한 설정 방법
+
+tx 태그로 TransactionInterceptor 빈 등록
+
+# 6.7 어노테이션 트랜잭션 속성과 포인트컷
+
+세밀한 트랜잭션 속성의 제어가 필요한 경우 다른 방법을 사용하는 것이 좋다
+
+## 6.7.2 트랜잭션 어노테이션
+
+### @Transactional
+
+메소드와 타입이 타깃. 즉, 메소드, 클래스, 인터페이스에 사용 가능
+
+어노테이션으로 지정하면 오브젝트를 자동으로 타깃으로 인식
+
+포인트컷은 TransactionAttributeSourcePointcut
+
+어드바이저는 TxInterceptor의 AnnotationTransactionAttributeSource (어노테이션에 담긴 속성정보)
 
